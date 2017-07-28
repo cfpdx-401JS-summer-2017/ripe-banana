@@ -1,0 +1,38 @@
+{
+  "name": "ripe-banana",
+  "version": "1.0.0",
+  "description": "For this assignment, you'l be creating a database of movie films (with reviews), movie studios, actors, reviews and reviewers.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "//pretest": "npm run lint",
+    "test": "mocha tests --recursive",
+    "test:watch": "npm run test -- -w",
+    "test:unit": "mocha tests/unit",
+    "test:e2e": "mocha tests/e2e",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anwarmontasir/ripe-banana.git"
+  },
+  "author": "Anwar Montasir, Andrew Potter, Haley Tortorella",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anwarmontasir/ripe-banana/issues"
+  },
+  "homepage": "https://github.com/anwarmontasir/ripe-banana#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.4",
+    "morgan": "^1.8.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.3.0",
+    "eslint-plugin-import": "^2.7.0",
+    "mocha": "^3.4.2"
+  }
+}
