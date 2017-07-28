@@ -1,0 +1,36 @@
+{
+  "name": "ripe-banana",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test:watch:nodemon": "nodemon --watch lib --watch tests --exec 'npm test'",
+    "test:watch": "npm test -- -w",
+    "test:e2e": "mocha tests/e2e",
+    "test:unit": "mocha tests/unit",
+    "test": "mocha tests --recursive --reporter mocha-better-spec-reporter",
+    "wendy": "npm run test:watch:nodemon",
+    "start": "nodemon server.js"
+    },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wbeck32/ripe-banana.git"
+  },
+  "author": "Wendy Beck, Christy La Guardia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wbeck32/ripe-banana/issues"
+  },
+  "homepage": "https://github.com/wbeck32/ripe-banana#readme",
+  "devDependencies": {
+    "body-parser": "^1.17.2",
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "express": "^4.15.3",
+    "mocha": "^3.4.2",
+    "mocha-better-spec-reporter": "^3.1.0",
+    "mongoose": "^4.11.4",
+    "morgan": "^1.8.2",
+    "nodemon": "^1.11.0"
+  }
+}
