@@ -23,6 +23,13 @@ describe('films REST api', () => {
             .then(res => res.body)
             .then(savedStudio => studio = savedStudio);
     });
+    let actor = null;
+    before(()=>{
+        return request.post('/actors')
+            .send({name: 'Sam Neill'})
+            .then(res => res.body)
+            .then(savedActor => actor = savedActor);
+    });
 
     let jurassP = {
         title: 'jurassic park',
@@ -46,6 +53,8 @@ describe('films REST api', () => {
     };
 
     function saveFilm(film) {
+        film.actor = actor._id;
+        console.log('film.actor =====>',film.actor);
         film.studio = studio._id;
         return request
             .post('/films')
@@ -98,6 +107,7 @@ describe('films REST api', () => {
 
             });
     });
+    // actors needs to be added for test to be complete
     it('rewrites film data by id', () =>{
         return saveFilm(bru)
             .then((saved)=> {
