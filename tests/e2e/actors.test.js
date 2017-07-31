@@ -63,7 +63,7 @@ describe('actors REST api',() => {
                 assert.equal(actor.name, matthMc.name);
                 assert.equal(actor.dob, matthMc.dob.toISOString());
                 assert.equal(actor.pob, matthMc.pob);
-                //assert.isOk(actor.films);
+                //assert.isOk(actor.films); an extra test that needs to be added once films are added
             });
     });
     it('returns 404 if actor does not exist', () => {
@@ -79,31 +79,52 @@ describe('actors REST api',() => {
             }
         );
     });
-    // it('GET all actors', () => {
-    //     return Promise.all([
-    //         saveActor(harrsF),
-    //         saveActor(peterD)
-    //     ])
-    //         .then(() => request.get('/actors'))
-    //         .then(res => {
-    //             const actors = res.body;
-    //             const tstactors = [matthMc, harrsF, peterD];
-    //             // console.log('actors[0].dob=>',actors[0].dob);
-    //             // console.log('matthMc.dob=>',matthMc.dob);
-    //             // console.log('actors =>',actors);
-    //             for(let i = 0; i > actors.length; i++) {
-    //                 assert.equal(actors[i].dob,tstactors[i].dob.toISOString());
-    //                 assert.equal(actors[i].name,tstactors[i].name.toISOString());
-    //                 assert.equal(actors[i].pob,tstactors[i].pob.toISOString());
-    //                 assert.equal(actors[i]._id,tstactors[i]._id.toISOString());
-    //             }
-                //assert.deepEqual(actors, [matthMc, harrsF, peterD]);
+    it('GET all actors', () => {
+        return Promise.all([
+            saveActor(harrsF),
+            saveActor(peterD),
+            saveActor(zoe)
+        ])
+            .then(() => request.get('/actors'))
+            .then(res => {
+                const actors = res.body;
+                const tstactors = [matthMc, harrsF, peterD];
+                //console.log('actors[0].dob=>',actors[0]._id);
+                //console.log('matthMc.dob=>',matthMc._id);
+                // console.log('actors =>',actors);
+                for(let i = 0; i > actors.length; i++) {
+                    assert.equal(actors[i].dob,tstactors[i].dob.toISOString());
+                    assert.equal(actors[i].name,tstactors[i].name);
+                    assert.equal(actors[i].pob,tstactors[i].pob);
+                    assert.equal(actors[i]._id,tstactors[i]._id);
+                }
 
             });
     });
-    // it('rewrites actor data by id', () =>{
-    //     return request.put(`/actors/${peterD._id}`)
-
-    // })
-
+    saveActor(zoe);
+    it('rewrites actor data by id', () =>{
+        return request
+            .put(`/actors/${zoe._id}`)
+            .send(zoeS)
+            .then(res => {
+                assert.isOk(res.body._id);
+                assert.equal(res.body.name,zoeS.name);
+                assert.equal(res.body.dob,zoeS.dob.toISOString());
+            });
+    });
+    // the deletion tests are passing but still need deletion blocking when actors
+    // have films they were in I chose Peter Dinklage as the test subject object 
+    //so be sure to remove a film with Peter Dinklage first
+    it('deletes actor by id', () => {
+        return request.delete(`/actors/${peterD._id}`)
+            .then(res => {
+                assert.deepEqual(JSON.parse(res.text), {removed: true});
+            });
+    });
+    it('deletes actor by id', () => {
+        return request.delete(`/actors/${peterD._id}`)
+            .then(res => {
+                assert.deepEqual(JSON.parse(res.text), {removed: false});
+            });
+    });
 });
