@@ -83,7 +83,6 @@ describe('actors REST api',() => {
         return Promise.all([
             saveActor(harrsF),
             saveActor(peterD),
-            saveActor(zoe)
         ])
             .then(() => request.get('/actors'))
             .then(res => {
