@@ -1,22 +1,22 @@
-
-const Studio = require('../../lib/models/studio');
+const Reviewer = require('../../lib/models/reviewer');
 const { assert } = require('chai');
 
-describe('Studio model', () => {
+describe('Reviewer model', () => {
 
     it('passes validation with required fields', () => {
-        const studio = new Studio({
-            name: 'Universal Pictures',
+        const reviewer = new Reviewer({
+            name: 'Manohla Dargis',
+            company: 'The NY Times'
 
         });
-        return studio.validate();
+        return reviewer.validate();
     });
 
     it('fails validation missing required fields', () => {
 
-        const studio = new Studio();
+        const reviewer = new Reviewer();
 
-        return studio.validate()
+        return reviewer.validate()
             .then(
                 () => { throw new Error ('Expected validation error'); },
                 ({ errors }) => {
@@ -26,10 +26,10 @@ describe('Studio model', () => {
     });
 
     it('fails validation with incorrect field type', () => {
-        const studio = new Studio({
+        const reviewer = new Reviewer({
             name: {},
         });
-        return studio.validate()
+        return reviewer.validate()
             .then(
                 () => { throw new Error('Expected validation error'); },
                 ({ errors }) => {
@@ -38,4 +38,3 @@ describe('Studio model', () => {
             );
     });
 });
-
