@@ -101,8 +101,8 @@ describe('actors REST api',() => {
 
             });
     });
-    it('rewrites actor data by id', () =>{
-        return request.put(`/actors/${}`)
-    })
+    // it('rewrites actor data by id', () =>{
+    //     return request.put(`/actors/${peterD._id}`)
+    // })
 
 });
