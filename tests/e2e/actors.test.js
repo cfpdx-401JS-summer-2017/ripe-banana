@@ -52,4 +52,34 @@ describe('actors route', () => {
                 assert.deepEqual(got, tom);
             });
     });
+    
+    it('GET returns 404 for non-existent id', () => {
+        const nonId = '589d04a8b6695bbdfd3106f1';
+        return request.get(`/actors/${nonId}`)
+            .then(
+                () => { throw new Error('expected 404');},
+                res => {
+                    assert.equal(res.status, 404);
+                }
+            );
+    });
+
+    it('returns list of all actors', () => {
+        return Promise.all([
+            saveActor(adam),
+            saveActor(marilyn)
+        ])
+            .then(savedActors => {
+                adam = savedActors[0];
+                marilyn = savedActors[1];
+            })
+            .then(() => request.get('/actors'))
+            .then(res => res.body)
+            .then(actors => {
+                assert.equal(actors.length, 3);
+                assert.deepEqual(actors[0], tom);
+                assert.deepEqual(actors[1], adam);
+                assert.deepEqual(actors[2], marilyn);
+            });
+    });
 });
