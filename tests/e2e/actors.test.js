@@ -16,7 +16,7 @@ describe('actors route', () => {
     let tom = {
         name: 'Tom Hanks',
         dob: 1956-07-09,
-        pob: 'Concord, CA'
+        pob: 'Concord, MA'
     };
 
     let adam = {
@@ -59,7 +59,7 @@ describe('actors route', () => {
             .then(
                 () => { throw new Error('expected 404');},
                 res => {
-                    assert.equal(res.status, 484);
+                    assert.equal(res.status, 404);
                 }
             );
     });
@@ -80,6 +80,16 @@ describe('actors route', () => {
                 assert.deepEqual(actors[0], tom);
                 assert.deepEqual(actors[1], adam);
                 assert.deepEqual(actors[2], marilyn);
+            });
+    });
+    
+    it ('updates actor', () => {
+        tom.pob = 'Concord, CA';
+        return request.put(`/actors/${tom._id}`)
+            .send(tom)
+            .then(res => res.body)
+            .then(updated => {
+                assert.equal(updated.pob, 'Concord, CA');
             });
     });
 });
