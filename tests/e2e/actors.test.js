@@ -92,4 +92,23 @@ describe('actors route', () => {
                 assert.equal(updated.pob, 'Concord, CA');
             });
     });
+    it ('deletes an actor', () => {
+        return request.delete(`/actors/${adam._id}`)
+            .then(res => res.body)
+            .then(result => {
+                assert.isTrue(result.removed);
+            })
+            .then(() => request.get('/actors'))
+            .then(res => res.body)
+            .then(actors => {
+                assert.equal(actors.length, 2);
+            });
+    });
+    it ('delete a non-existent actor is removed false', () => {
+        return request.delete(`/actors/${adam._id}`)
+            .then(res => res.body)
+            .then(result => {
+                assert.isFalse(result.removed);
+            });
+    });
 });
