@@ -20,10 +20,10 @@ describe('Actors model', () => {
             const actor = new Actor();
             return actor.validate()
                 .then(expectedValidation,
-                err => {
-                    const errors = err.errors;
-                    assert.ok(errors.name && errors.name.kind === 'required');
-                });
+                    err => {
+                        const errors = err.errors;
+                        assert.ok(errors.name && errors.name.kind === 'required');
+                    });
         });
     });
 });
