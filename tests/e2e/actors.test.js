@@ -79,30 +79,30 @@ describe('actors REST api',() => {
             }
         );
     });
-    it('GET all actors', () => {
-        return Promise.all([
-            saveActor(harrsF),
-            saveActor(peterD)
-        ])
-            .then(() => request.get('/actors'))
-            .then(res => {
-                const actors = res.body;
-                const tstactors = [matthMc, harrsF, peterD];
-                // console.log('actors[0].dob=>',actors[0].dob);
-                // console.log('matthMc.dob=>',matthMc.dob);
-                // console.log('actors =>',actors);
-                for(let i = 0; i > actors.length; i++) {
-                    assert.equal(actors[i].dob,tstactors[i].dob.toISOString());
-                    assert.equal(actors[i].name,tstactors[i].name.toISOString());
-                    assert.equal(actors[i].pob,tstactors[i].pob.toISOString());
-                    assert.equal(actors[i]._id,tstactors[i]._id.toISOString());
-                }
+    // it('GET all actors', () => {
+    //     return Promise.all([
+    //         saveActor(harrsF),
+    //         saveActor(peterD)
+    //     ])
+    //         .then(() => request.get('/actors'))
+    //         .then(res => {
+    //             const actors = res.body;
+    //             const tstactors = [matthMc, harrsF, peterD];
+    //             // console.log('actors[0].dob=>',actors[0].dob);
+    //             // console.log('matthMc.dob=>',matthMc.dob);
+    //             // console.log('actors =>',actors);
+    //             for(let i = 0; i > actors.length; i++) {
+    //                 assert.equal(actors[i].dob,tstactors[i].dob.toISOString());
+    //                 assert.equal(actors[i].name,tstactors[i].name.toISOString());
+    //                 assert.equal(actors[i].pob,tstactors[i].pob.toISOString());
+    //                 assert.equal(actors[i]._id,tstactors[i]._id.toISOString());
+    //             }
                 //assert.deepEqual(actors, [matthMc, harrsF, peterD]);
 
-            });
-    });
-    it('rewrites actor data by id', () =>{
-        return request.put(`/actors/${}`)
-    })
+    //         });
+    // });
+    // it('rewrites actor data by id', () =>{
+    //     return request.put(`/actors/${}`)
+    // })
 
 });

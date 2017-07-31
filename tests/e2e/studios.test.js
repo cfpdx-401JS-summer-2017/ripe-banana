@@ -14,25 +14,21 @@ const request = chai.request(app);
 
 describe('studio REST api', () => {
 
-    before(() => connection.dropDatabase());
 
-    let studio = null;
-    before(() => {
 
+    it('saves new studio', () => {
+        before(() => connection.dropDatabase());
+
+        let studio = null;
         return request.post('/studios')
             .send({ name: 'Universal Studios' })
-            .then(res => res.body)
-            .then(savedStudio => studio = savedStudio)
-            .then(console.log(studio));
-
+            .then(res => studio = res.body)
+            .then(() => {
+                assert.ok(studio._id);
+                assert.equal(studio.name, 'Universal Studios');
+                // assert.equal(studio.address.city, 'Hollywood');
+                // assert.equal(studio.address.state, 'California');
+                // assert.equal(studio.address.zip, 91608);
+            });
     });
-
 });
-
-
-
-                // assert.ok(savedStudio._id);
-                // assert.equal(savedStudio.name, 'Universal Studios');
-                // assert.equal(savedStudio.address.city, 'Hollywood');
-                // assert.equal(savedStudio.address.state, 'California');
-                // assert.equal(savedStudio.address.zip, 91608);
