@@ -59,7 +59,7 @@ describe('actors route', () => {
             .then(
                 () => { throw new Error('expected 404');},
                 res => {
-                    assert.equal(res.status, 404);
+                    assert.equal(res.status, 484);
                 }
             );
     });
