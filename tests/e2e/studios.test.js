@@ -16,8 +16,6 @@ describe('studio REST api', () => {
 
     before(() => connection.dropDatabase());
 
-
-
     it('initial /GET returns empty list', () => {
         return request.get('/studios')
             .then(req => {
@@ -31,7 +29,8 @@ describe('studio REST api', () => {
         address: {
             city: 'Hollywood',
             state: 'California',
-            zip: '91608'
+            zip: '91608',
+            country: 'USA'
         }
     };
 
@@ -40,7 +39,8 @@ describe('studio REST api', () => {
         address: {
             city: 'Hollywood',
             state: 'California',
-            zip: '91522'
+            zip: '91522',
+            country: 'USA'
         }
     };
 
@@ -49,7 +49,8 @@ describe('studio REST api', () => {
         address: {
             city: 'Los Angeles',
             state: 'California',
-            zip: '90067'
+            zip: '90067',
+            country: 'USA'
         }
     };
 
