@@ -99,10 +99,11 @@ describe('actors REST api',() => {
     //             }
                 //assert.deepEqual(actors, [matthMc, harrsF, peterD]);
 
-    //         });
-    // });
+            });
+    });
     // it('rewrites actor data by id', () =>{
-    //     return request.put(`/actors/${}`)
+    //     return request.put(`/actors/${peterD._id}`)
+
     // })
 
 });
