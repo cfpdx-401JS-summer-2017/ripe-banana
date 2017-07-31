@@ -111,4 +111,13 @@ describe('actors route', () => {
                 assert.isFalse(result.removed);
             });
     });
+    it('errors on validation failure', () => {
+        return saveActor({})
+            .then(
+                () => { throw new Error('unexpected failure'); },
+                (errors) => {
+                    assert.equal(errors.status, 400);
+                }
+            );
+    });
 });
