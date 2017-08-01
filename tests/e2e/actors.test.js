@@ -15,7 +15,17 @@ const request = chai.request(app);
 
 describe('actors REST api',() => {
     before(() => connection.dropDatabase());
-
+    let film = null;
+    let intStel = {
+        title: 'Interstellar',
+        released: 'November 5, 2014'
+    };
+    before(()=>{
+        return request.post('/film')
+            .send(intStel)
+            .then(res => res.body)
+            .then(savedFilm => film = savedFilm);
+    });
     const peterD = {
         name: 'Peter Dinklage',
         dob: new Date('June 11, 1969')
@@ -60,10 +70,12 @@ describe('actors REST api',() => {
             .get(`/actors/${matthMc._id}`)
             .then(res => res.body)
             .then(actor => {
+                console.log('actor =====>',actor);
                 assert.equal(actor.name, matthMc.name);
                 assert.equal(actor.dob, matthMc.dob.toISOString());
                 assert.equal(actor.pob, matthMc.pob);
-                //assert.isOk(actor.films); an extra test that needs to be added once films are added
+                //assert.isOk(actor.films); 
+                //an extra test that needs to be added once films are added
             });
     });
     it('returns 404 if actor does not exist', () => {

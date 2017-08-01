@@ -54,7 +54,6 @@ describe('films REST api', () => {
 
     function saveFilm(film) {
         film.actor = actor._id;
-        console.log('film.actor =====>',film.actor);
         film.studio = studio._id;
         return request
             .post('/films')
