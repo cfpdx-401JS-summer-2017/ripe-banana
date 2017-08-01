@@ -3,10 +3,7 @@ const request = require('./_request');
 const assert = require('chai').assert;
 
 describe('actors route', () => {
-    before((done) => {
-        db.drop();
-        done();
-    });
+    before(db.drop);
 
     it('initial GET returns empty list', () => {
         return request.get('/actors')

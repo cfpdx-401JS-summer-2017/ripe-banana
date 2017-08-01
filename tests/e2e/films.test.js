@@ -158,6 +158,20 @@ describe('films route', () => {
             });
     });
 
-    it
+    it('deletes a film', () => {
+        return request.delete(`/films/${savingPrivateRyan._id}`)
+            .then(res => res.body)
+            .then(result => {
+                assert.isTrue(result.removed);
+            });
+    });
+
+    it('deletes a non existent film is removed false', () => {
+        return request.delete(`/films/${savingPrivateRyan._id}`)
+            .then(res => res.body)
+            .then(result => {
+                assert.isFalse(result.removed);
+            });
+    });
 
 });
