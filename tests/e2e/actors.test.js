@@ -15,19 +15,19 @@ describe('actors route', () => {
 
     let tom = {
         name: 'Tom Hanks',
-        dob: 1956-07-09,
+        dob: new Date('1956-07-09'),
         pob: 'Concord, MA'
     };
 
     let adam = {
         name: 'Adam Sandler',
-        dob: 1966-09-09,
+        dob: new Date('1966-09-09'),
         pob: 'Brooklyn, NY'
     };
 
     let marilyn = {
         name: 'Marilyn Monroe',
-        dob: 1926-06-01,
+        dob: new Date('1926-06-01'),
         pob: 'Los Angeles, CA'
     };
 

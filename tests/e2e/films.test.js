@@ -13,8 +13,6 @@ describe('films route', () => {
             });
     });
 
-    // Create Films, maybe also create studios and actors
-
     // Studios
     let disney = {
         name: 'Disney',
@@ -33,19 +31,19 @@ describe('films route', () => {
     // Actors
     let tom = {
         name: 'Tom Hanks',
-        dob: 1956-07-09,
+        dob: new Date('1956-07-09'),
         pob: 'Concord, CA'
     };
 
     let adam = {
         name: 'Adam Sandler',
-        dob: 1966-09-09,
+        dob: new Date('1966-09-09'),
         pob: 'Brooklyn, NY'
     };
 
     let marilyn = {
         name: 'Marilyn Monroe',
-        dob: 1926-06-01,
+        dob: new Date('1926-06-01'),
         pob: 'Los Angeles, CA'
     };
 
@@ -112,7 +110,6 @@ describe('films route', () => {
             .then(saved => {
                 assert.ok(saved._id, 'saved has id');
                 savingPrivateRyan = saved;
-                console.log(saved);
             })
             .then(() => {
                 return request.get(`/films/${savingPrivateRyan._id}`);

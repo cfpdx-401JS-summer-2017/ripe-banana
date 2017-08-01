@@ -8,7 +8,7 @@ describe('Actors model', () => {
     it('validates good model', () => {
         const actor = new Actor({
             name: 'Naomi Watts',
-            dob: 1968-09-28,
+            dob: new Date('1968-09-28'),
             pob: 'Shoreham, England'
         });
         return actor.validate();

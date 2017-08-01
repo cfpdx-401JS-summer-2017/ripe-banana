@@ -6,14 +6,6 @@ describe('studios model', () => {
 
     before(db.drop);
 
-    let studio = null;
-    before(() => {
-        return request.post('/studios')
-            .send({ name: 'Pixar', addres: { city: 'Emeryville', state: 'CA', country: 'USA' } })
-            .then(res => res.body)
-            .then(savedStudio => studio = savedStudio);
-    });
-
     let disney = {
         name: 'Disney',
         address: {
