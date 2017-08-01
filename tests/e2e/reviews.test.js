@@ -68,7 +68,6 @@ describe('reviews route', () => {
             .send(studio)
             .then(res => {
                 studio._id = res.body._id;
-                console.log('RES DOT BODYYYYYYYYYYY',res.body);
                 return res.body;
             });
     }
@@ -80,8 +79,6 @@ describe('reviews route', () => {
         }, {
             actor: lauraElenaHarring
         }];
-        console.log('STUDIOOOOOOOOOOOOOOO',studio);
-        console.log('CAAAAAAAAAAAASSSSSSTTTT',cast);
         return request.post('/films')
             .send(film)
             .then(res => {
