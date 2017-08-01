@@ -78,21 +78,29 @@ describe('films route', () => {
             .then(res => res.body);
     }
 
-    saveActor(tom);
-    saveActor(adam);
-    saveActor(marilyn);
 
     function saveStudio(studio) {
         return request
             .post('/studios')
             .send(studio)
-            .then(res => res.body);
+            .then(res => {
+                studio._id = res.body._id;
+                return res.body;
+            });
     }
 
-    saveStudio(disney);
-    saveStudio(universal);
+    before(() => {
+        return Promise.all([
+            saveActor(tom),
+            saveActor(adam),
+            saveActor(marilyn),
+            saveStudio(disney),
+            saveStudio(universal)
+        ]);
+    });
 
-    function saveFilm(film){
+    function saveFilm(film, studio=disney){
+        film.studio = studio._id;
         return request
             .post('/films')
             .send(film)
@@ -100,7 +108,7 @@ describe('films route', () => {
     }
 
     it('roundtrips a new film', () => {
-        return saveFilm(savingPrivateRyan)
+        return saveFilm(savingPrivateRyan, universal)
             .then(saved => {
                 assert.ok(saved._id, 'saved has id');
                 savingPrivateRyan = saved;
@@ -137,7 +145,43 @@ describe('films route', () => {
             })
             .then(() => request.get('/films'))
             .then(res => res.body)
-            .then()
+            .then();
+    });
+
+    it('updates film', () => {
+        savingPrivateRyan.released = 2087;
+        return request.put(`/films/${savingPrivateRyan._id}`)
+            .send(savingPrivateRyan)
+            .then(res => res.body)
+            .then(updated => {
+                assert.equal(updated.released, savingPrivateRyan.released);
+            });
+    });
+
+    it('deletes a film', () => {
+        return request.delete(`/films/${savingPrivateRyan._id}`)
+            .then(res => res.body)
+            .then(result => {
+                assert.isTrue(result.removed);
+            });
+    });
+
+    it('deletes a non existent film is removed false', () => {
+        return request.delete(`/films/${savingPrivateRyan._id}`)
+            .then(res => res.body)
+            .then(result => {
+                assert.isFalse(result.removed);
+            });
+    });
+
+    it('errors on validation failure', () => {
+        return saveFilm({})
+            .then(
+                () => { throw new Error('unexpected failure'); },
+                (errors) => {
+                    assert.equal(errors.status, 400);
+                }
+            );
     });
 
 });
