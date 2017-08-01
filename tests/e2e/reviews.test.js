@@ -10,10 +10,10 @@ describe('reviews route', () => {
     let actor2 = null;
     let film = null;
 
-    before(() => {
-        return request.post('/reviewers')
+    // before(() => {
+    //     return request.post('/reviewers')
         
-    });
+    // });
 
     it('initial GET returns empty list', () => {
         return request.get('/reviews')
