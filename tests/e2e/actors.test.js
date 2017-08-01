@@ -15,16 +15,12 @@ const request = chai.request(app);
 
 describe('actors REST api',() => {
     before(() => connection.dropDatabase());
-    let film = null;
-    let intStel = {
-        title: 'Interstellar',
-        released: 'November 5, 2014'
-    };
-    before(()=>{
-        return request.post('/film')
-            .send(intStel)
+    let studio = null;
+    before(() => {
+        return request.post('/studios')
+            .send({name: 'Legendary Pictures'})
             .then(res => res.body)
-            .then(savedFilm => film = savedFilm);
+            .then(savedStudio => studio = savedStudio);
     });
     const peterD = {
         name: 'Peter Dinklage',
@@ -48,8 +44,23 @@ describe('actors REST api',() => {
         pob: ' Passaic, New Jersey, USA'
 
     };
+    let film = null;
+    let intStel = {
+        title: 'Interstellar',
+        released: new Date('November 5, 2014')
+    };
+    function saveFilm(film, actor) {
+        film.cast = [{actor: actor._id, role:'spaceman'}];
+        film.studio = studio._id;
+        return request
+            .post('/films')
+            .send(film)
+            .then(res => res.body)
+            .then(savedFilm => film = savedFilm);
+    }
     function saveActor(actor) {
-        return request.post('/actors')
+        return request
+            .post('/actors')
             .send(actor)
             .then(({body}) => {
                 actor._id = body._id;
@@ -63,18 +74,22 @@ describe('actors REST api',() => {
                 assert.isOk(savedActor._id);
                 assert.equal(savedActor.name, matthMc.name);
                 assert.deepEqual(savedActor.dob, matthMc.dob.toISOString());
+                return savedActor;
+            })
+            .then((savedActor) =>{
+                saveFilm(intStel,savedActor);
             });
     });
     it('GETs actor if it exists', () => {
         return request
             .get(`/actors/${matthMc._id}`)
-            .then(res => res.body)
+            .then(res =>res.body)
             .then(actor => {
-                console.log('actor =====>',actor);
+                console.log('actor =======================================>',actor);
                 assert.equal(actor.name, matthMc.name);
                 assert.equal(actor.dob, matthMc.dob.toISOString());
                 assert.equal(actor.pob, matthMc.pob);
-                //assert.isOk(actor.films); 
+                assert.isOk(actor.films); 
                 //an extra test that needs to be added once films are added
             });
     });

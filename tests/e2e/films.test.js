@@ -33,7 +33,7 @@ describe('films REST api', () => {
 
     let jurassP = {
         title: 'jurassic park',
-        released: new Date('11 June 1993'),
+        released: new Date('11 June 1993')
     }; 
     let jaw = {
         title: 'jaws',
