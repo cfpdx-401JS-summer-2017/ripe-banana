@@ -53,7 +53,7 @@ describe('films REST api', () => {
     };
 
     function saveFilm(film) {
-        film.actor = actor._id;
+        film.cast = [{actor: actor._id, role:'Grant'}];
         film.studio = studio._id;
         return request
             .post('/films')
@@ -61,7 +61,7 @@ describe('films REST api', () => {
             .then(res => res.body);
     }
     
-    it('roundtrips a new film', () => {
+    it('roundtrip gets a new film', () => {
         return saveFilm(jurassP)
             .then(saved => {
                 assert.ok(saved._id, 'saved has ID');
@@ -106,7 +106,6 @@ describe('films REST api', () => {
 
             });
     });
-    // actors needs to be added for test to be complete
     it('rewrites film data by id', () =>{
         return saveFilm(bru)
             .then((saved)=> {

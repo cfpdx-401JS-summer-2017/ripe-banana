@@ -85,7 +85,6 @@ describe('actors REST api',() => {
             .get(`/actors/${matthMc._id}`)
             .then(res =>res.body)
             .then(actor => {
-                console.log('actor =======================================>',actor);
                 assert.equal(actor.name, matthMc.name);
                 assert.equal(actor.dob, matthMc.dob.toISOString());
                 assert.equal(actor.pob, matthMc.pob);
@@ -147,10 +146,20 @@ describe('actors REST api',() => {
                 assert.deepEqual(JSON.parse(res.text), {removed: true});
             });
     });
-    it('deletes actor by id', () => {
+    it('fails to delete the same actor by id', () => {
         return request.delete(`/actors/${peterD._id}`)
             .then(res => {
                 assert.deepEqual(JSON.parse(res.text), {removed: false});
             });
+    });
+    it('fails to delete an actor with a film attached', () => {
+        return request.delete(`/actors/${matthMc._id}`)
+            .then(res => {
+                assert.deepEqual(JSON.parse(res.text),{removed: false});
+            },
+            err => {
+                assert.isOk(err);
+            }
+            );
     });
 });
