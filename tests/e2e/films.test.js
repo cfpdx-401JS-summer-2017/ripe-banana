@@ -33,7 +33,7 @@ describe('films REST api', () => {
 
     let jurassP = {
         title: 'jurassic park',
-        released: new Date('11 June 1993'),
+        released: new Date('11 June 1993')
     }; 
     let jaw = {
         title: 'jaws',
@@ -53,8 +53,7 @@ describe('films REST api', () => {
     };
 
     function saveFilm(film) {
-        film.actor = actor._id;
-        console.log('film.actor =====>',film.actor);
+        film.cast = [{actor: actor._id, role:'Grant'}];
         film.studio = studio._id;
         return request
             .post('/films')
@@ -62,7 +61,7 @@ describe('films REST api', () => {
             .then(res => res.body);
     }
     
-    it('roundtrips a new film', () => {
+    it('roundtrip gets a new film', () => {
         return saveFilm(jurassP)
             .then(saved => {
                 assert.ok(saved._id, 'saved has ID');
@@ -107,7 +106,6 @@ describe('films REST api', () => {
 
             });
     });
-    // actors needs to be added for test to be complete
     it('rewrites film data by id', () =>{
         return saveFilm(bru)
             .then((saved)=> {
