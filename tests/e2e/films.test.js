@@ -86,13 +86,21 @@ describe('films route', () => {
         return request
             .post('/studios')
             .send(studio)
-            .then(res => res.body);
+            .then(res => {
+                studio._id = res.body._id;
+                return res.body;
+            });
     }
 
-    saveStudio(disney);
-    saveStudio(universal);
+    before(() => {
+        return Promise.all([
+            saveStudio(disney),
+            saveStudio(universal)
+        ]);
+    });
 
-    function saveFilm(film){
+    function saveFilm(film, studio=disney){
+        film.studio = studio._id;
         return request
             .post('/films')
             .send(film)
@@ -100,7 +108,7 @@ describe('films route', () => {
     }
 
     it('roundtrips a new film', () => {
-        return saveFilm(savingPrivateRyan)
+        return saveFilm(savingPrivateRyan, universal)
             .then(saved => {
                 assert.ok(saved._id, 'saved has id');
                 savingPrivateRyan = saved;
@@ -137,7 +145,19 @@ describe('films route', () => {
             })
             .then(() => request.get('/films'))
             .then(res => res.body)
-            .then()
+            .then();
     });
+
+    it('updates film', () => {
+        savingPrivateRyan.released = 2087;
+        return request.put(`/films/${savingPrivateRyan._id}`)
+            .send(savingPrivateRyan)
+            .then(res => res.body)
+            .then(updated => {
+                assert.equal(updated.released, savingPrivateRyan.released);
+            });
+    });
+
+    it
 
 });
