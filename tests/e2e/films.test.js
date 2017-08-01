@@ -174,4 +174,14 @@ describe('films route', () => {
             });
     });
 
+    it('errors on validation failure', () => {
+        return saveFilm({})
+            .then(
+                () => { throw new Error('unexpected failure'); },
+                (errors) => {
+                    assert.equal(errors.status, 400);
+                }
+            );
+    });
+
 });
