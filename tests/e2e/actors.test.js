@@ -3,7 +3,7 @@ const assert = chai.assert;
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
-process.envMONGODB_URI = 'mongodb://localhost:27017/ripe-banana-test';
+process.env.MONGODB_URI = 'mongodb://localhost:27017/ripe-banana-test';
 
 require('../../lib/connect');
 
