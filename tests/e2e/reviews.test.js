@@ -20,12 +20,12 @@ describe('reviews route', () => {
 
     let naomiWatts = {
         name: 'Naomi Watts',
-        dob: 1968-09-28,
+        dob: new Date('1968-09-28'),
         pob: 'Shoreham, England'
     };
     let lauraElenaHarring = {
         name: 'Laura Elena Harring',
-        dob: 1964-03-03,
+        dob: new Date('1964-03-03'),
         pob: 'Los Mochis, Mexico'
     };
     let universal = {
@@ -47,13 +47,19 @@ describe('reviews route', () => {
     function saveReviewer(reviewer) {
         return request.post('/reviewers')
             .send(reviewer)
-            .then(res => res.body);
+            .then(res => {
+                reviewer._id = res.body._id;
+                return res.body;
+            });
     }
 
     function saveActor(actor) {
         return request.post('/actors')
             .send(actor)
-            .then(res => res.body);
+            .then(res => {
+                actor._id = res.body._id;
+                return res.body;
+            });
     }
     
     function saveStudio(studio) {
@@ -62,34 +68,39 @@ describe('reviews route', () => {
             .send(studio)
             .then(res => {
                 studio._id = res.body._id;
+                console.log('RES DOT BODYYYYYYYYYYY',res.body);
                 return res.body;
             });
     }
-    
 
-    function saveFilm(film, studio=universal) {
+    function saveFilm(film, studio=universal, cast=[naomiWatts, lauraElenaHarring]) {
         film.studio = studio._id;
+        film.cast = [{
+            actor: naomiWatts
+        }, {
+            actor: lauraElenaHarring
+        }];
+        console.log('STUDIOOOOOOOOOOOOOOO',studio);
+        console.log('CAAAAAAAAAAAASSSSSSTTTT',cast);
         return request.post('/films')
             .send(film)
-            .then(res => res.body);
+            .then(res => {
+                film._id = res.body._id;
+                return res.body;
+            });
     }
-    
+
     before(() => {
         return Promise.all([
             saveReviewer(rogerEbert),
             saveActor(naomiWatts),
             saveActor(lauraElenaHarring),
             saveStudio(universal),
-            saveFilm(mulhollandDrive)
         ]);
     });
+    
+    before(() => saveFilm(mulhollandDrive));
 
-    let mulhollandDriveReview = {
-        rating: 5,
-        reviewer: rogerEbert._id,
-        content: 'David Lynch has been working toward Mulholland Drive all of his career, and now that he’s arrived there I forgive him Wild at Heart and...',
-        film: mulhollandDrive._id
-    };
     
     function saveReview(review, reviewer=rogerEbert, film=mulhollandDrive) {
         review.reviewer = reviewer._id;
@@ -97,11 +108,21 @@ describe('reviews route', () => {
         return request
             .post('/reviews')
             .send(review)
-            .then(res => res.body);
+            .then(res => {
+                review._id = res.body._id;
+                return res.body;
+            });
     }
 
     it('roundtrips a new review', () => {
-        return saveReview(mulhollandDriveReview)
+        let mulhollandDriveReview = {
+            rating: 5,
+            reviewer: rogerEbert._id,
+            content: 'David Lynch has been working toward Mulholland Drive all of his career, and now that he’s arrived there I forgive him Wild at Heart and...',
+            film: mulhollandDrive._id
+        };
+
+        return saveReview(mulhollandDriveReview, rogerEbert, mulhollandDrive)
             .then(saved => {
                 assert.ok(saved._id, 'saved has id');
                 mulhollandDriveReview = saved;

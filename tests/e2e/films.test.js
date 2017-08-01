@@ -78,9 +78,6 @@ describe('films route', () => {
             .then(res => res.body);
     }
 
-    saveActor(tom);
-    saveActor(adam);
-    saveActor(marilyn);
 
     function saveStudio(studio) {
         return request
@@ -94,6 +91,9 @@ describe('films route', () => {
 
     before(() => {
         return Promise.all([
+            saveActor(tom),
+            saveActor(adam),
+            saveActor(marilyn),
             saveStudio(disney),
             saveStudio(universal)
         ]);
