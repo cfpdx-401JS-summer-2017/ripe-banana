@@ -44,7 +44,6 @@ describe('actors REST api',() => {
         pob: ' Passaic, New Jersey, USA'
 
     };
-    let film = null;
     let intStel = {
         title: 'Interstellar',
         released: new Date('November 5, 2014')
@@ -114,9 +113,6 @@ describe('actors REST api',() => {
             .then(res => {
                 const actors = res.body;
                 const tstactors = [matthMc, harrsF, peterD];
-                //console.log('actors[0].dob=>',actors[0]._id);
-                //console.log('matthMc.dob=>',matthMc._id);
-                // console.log('actors =>',actors);
                 for(let i = 0; i > actors.length; i++) {
                     assert.equal(actors[i].dob,tstactors[i].dob.toISOString());
                     assert.equal(actors[i].name,tstactors[i].name);
