@@ -24,6 +24,188 @@ describe('reviewer REST api', () => {
             });
     });
 
+    let film1 = null;
+    let film2 = null;
+    let film3 = null;
+
+
+    let studio1 = {
+        name: 'Universal Studios',
+        address: {
+            city: 'Hollywood',
+            state: 'California',
+            country: 'USA'
+        }
+    };
+    let studio2 = {
+        name: '20th Century Fox',
+        address: {
+            city: 'Hollywood',
+            state: 'California',
+            country: 'USA'
+        }
+    };
+    let jeff = {
+        name: 'Jeff Goldblum',
+        dob: new Date('October 22, 1952'),
+        pob: 'Pittsburgh, PA'
+    };
+
+    let john = null;
+    let amy = null;
+
+
+    it('creates test data', () => {
+        return Promise.all([
+            // Saves studios
+            request.post('/studios')
+                .send(studio1)
+                .then(res => res.body)
+                .then(saved => {
+                    studio1 = saved;
+                    return studio1;
+                }),
+
+            request.post('/studios')
+                .send(studio2)
+                .then(res => res.body)
+                .then(saved => {
+                    studio2 = saved;
+                    return studio2;
+                }),
+
+            //saves actor
+            request.post('/actors')
+                .send(jeff)
+                .then(res => res.body)
+                .then(saved => {
+                    jeff = saved;
+                    return jeff;
+                })
+
+        ])
+            //saves films
+            .then(() => {
+                return request.post('/films')
+                    .send({
+                        title: 'Jurassic Park',
+                        studio: studio1._id,
+                        released: 1993,
+                        cast: [{
+                            role: 'Ian Malcomb',
+                            actor: jeff._id
+                        }]
+                    });
+            })
+            .then(res => res.body)
+            .then(saved => {
+                film1 = saved;
+                return film1;
+            })
+
+            .then(() => {
+                return request.post('/films')
+                    .send({
+                        title: 'The Fly',
+                        studio: studio2._id,
+                        released: 1986,
+                        cast: [{
+                            role: 'The Fly',
+                            actor: jeff._id
+                        }]
+                    });
+
+            })
+            .then(res => res.body)
+            .then(saved => {
+                film2 = saved;
+                return film2;
+            })
+
+            .then(() => {
+                return request.post('/films')
+                    .send({
+                        title: 'Jurassic Park 3',
+                        studio: studio2._id,
+                        released: 1999,
+                        cast: [{
+                            role: 'Ian Malcomb',
+                            actor: jeff._id
+                        }]
+                    });
+
+            })
+            .then(res => res.body)
+            .then(saved => {
+                film3 = saved;
+                return film3;
+            })
+
+            // save reviewers
+            .then(() => {
+                return request.post('/reviewers')
+                    .send({
+                        name: 'John Smith',
+                        company: 'Movie Reviews Inc.'
+                    });
+
+            })
+            .then(res => res.body)
+            .then(saved => {
+                john = saved;
+                return john;
+            })
+
+            .then(() => {
+                return request.post('/reviewers')
+                    .send({
+                        name: 'Amy Jones',
+                        company: 'Amy Reviews'
+                    });
+
+            })
+            .then(res => res.body)
+            .then(saved => {
+                amy = saved;
+                return amy;
+            })
+
+            // save reviews
+
+            .then(() => {
+                return request.post('/reviews')
+                    .send({
+                        rating: '4',
+                        reviewer: john._id,
+                        review: 'This was also a great movie!',
+                        film: film1._id
+                    });
+            })
+            .then(res => res.body)
+            .then(saved => {
+                let review1 = saved;
+                return review1;
+            })
+
+            .then(() => {
+                return request.post('/reviews')
+                    .send({
+                        rating: '3',
+                        reviewer: amy._id,
+                        review: 'This was also a great movie!',
+                        film: film2._id
+                    });
+            })
+            .then(res => res.body)
+            .then(saved => {
+                let review2 = saved;
+                return review2;
+            });
+
+    });
+
+
+
     let manohla = {
         name: 'Manohla Dargis',
         company: 'NY Times'
@@ -43,11 +225,16 @@ describe('reviewer REST api', () => {
 
         return request.post('/reviewers')
             .send(reviewer)
-            .then(res => res.body);
+            .then(res => res.body)
+            .then(saved => {
+                reviewer = saved;
+                return reviewer;
+            });
     }
 
     it('roundtrips a new reviewer', () => {
         return saveReviewer(manohla)
+
             .then(saved => {
                 assert.ok(saved._id, 'saved has id');
                 manohla = saved;
@@ -57,7 +244,8 @@ describe('reviewer REST api', () => {
             })
             .then(res => res.body)
             .then(got => {
-                assert.deepEqual(got, manohla);
+                assert.equal(got.name, manohla.name);
+                assert.equal(got._id, manohla._id);
             });
     });
 
@@ -84,10 +272,21 @@ describe('reviewer REST api', () => {
             .then(() => request.get('/reviewers'))
             .then(res => res.body)
             .then(reviewers => {
-                assert.equal(reviewers.length, 3);
+                assert.equal(reviewers.length, 5);
                 assert.deepInclude(reviewers, manohla);
                 assert.deepInclude(reviewers, david);
                 assert.deepInclude(reviewers, jeffrey);
+            });
+    });
+
+    it('GETs reviewer if it exists', () => {
+        return request
+            .get(`/reviewers/${john._id}`)
+            .then(res => res.body)
+            .then(reviewer => {
+                assert.equal(reviewer.name, john.name);
+                assert.equal(reviewer.company, john.company);
+                assert.isOk(reviewer.reviews);
             });
     });
 
@@ -110,7 +309,7 @@ describe('reviewer REST api', () => {
             .then(() => request.get('/reviewers'))
             .then(res => res.body)
             .then(reviewers => {
-                assert.equal(reviewers.length, 2);
+                assert.equal(reviewers.length, 4);
             });
 
     });
