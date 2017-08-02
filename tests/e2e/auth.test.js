@@ -29,11 +29,11 @@ describe('auth', () => {
                 );
 
         it('signup requires email', () =>
-            badRequest('/auth/signup', { password: 'abc' }, 400, 'email and password must be supplied')
+            badRequest('/auth/signup', { password: 'abc' }, 400, 'both email and password are required')
         );
 
         it('signup requires password', () =>
-            badRequest('/auth/signup', { email: 'abc' }, 400, 'email and password must be supplied')
+            badRequest('/auth/signup', { email: 'abc' }, 400, 'both email and password are required')
         );
 
         let token = '';
@@ -46,16 +46,16 @@ describe('auth', () => {
         );
 
         it('can\'t use same email', () =>
-            badRequest('/auth/signup', user, 400, 'email in use')
+            badRequest('/auth/signup', user, 400, 'the email provided is already in use')
         );
 
 
         it('signin requires email', () =>
-            badRequest('/auth/signin', { password: 'abc' }, 400, 'email and password must be supplied')
+            badRequest('/auth/signin', { password: 'abc' }, 400, 'both email and password are required')
         );
 
         it('signin requires password', () =>
-            badRequest('/auth/signin', { email: 'abc' }, 400, 'email and password must be supplied')
+            badRequest('/auth/signin', { email: 'abc' }, 400, 'both email and password are required')
         );
 
         it('signin with wrong user', () =>
