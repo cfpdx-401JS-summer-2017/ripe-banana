@@ -9,11 +9,10 @@ describe('reviewers model', () => {
     it('initial GET returns empty list', () => {
         return request.get('/reviewers')
             .then(req => {
-                const reviewers = req.body;
-                assert.deepEqual(reviewers, []);
-
+                const reviews = req.body;
+                assert.deepEqual(reviews, []);
             });
-    });   
+    });
         
     let rogerEbert = {
         name: 'Roger Ebert',

@@ -1,0 +1,46 @@
+[
+    {
+        "title": "Amazing Film",
+        "studio": {
+            "$oid": "598269ad1105b107e9c3045f"
+        },
+        "released": 2017,
+        "cast": [
+            {
+                "role": "Godzilla",
+                "actor": {
+                    "$oid": "5982654ce8d5db04ad93fb25"
+                }
+            },
+            {
+                "role": "Santa Claus",
+                "actor": {
+                    "$oid": "59826614e8d5db04ad93fb27"
+                } 
+            }
+        ],
+        "id": { "$oid": "598269ad1105b107e9c30666" }
+    },
+    {
+        "title": "Breakin II, Electric Boogaloo",
+        "studio": {
+            "$oid": "598269ad1105b107e9c30461"
+        },
+        "released": 2017,
+        "cast": [
+            {
+                "role": "Ozone",
+                "actor": {
+                    "$oid": "59826624e8d5db04ad93fb35"
+                }
+            },
+            {
+                "role": "Turbo",
+                "actor": {
+                    "$oid": "59826624e8d5db04ad93fb36"
+                } 
+            }
+        ],
+        "id": { "$oid": "598269ad1105b107e9c30667" } 
+    }
+]
