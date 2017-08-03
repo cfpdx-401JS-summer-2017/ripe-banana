@@ -1,0 +1,86 @@
+[
+    {
+        "_id": { "$oid" : "5982654ce8d5db04ad93fb25" },
+        "name": "Tom Hanks",
+        "dob": "1956-07-09T00:00:00.000Z",
+        "pob": "Concord, CA",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "5982660de8d5db04ad93fb26" },
+        "name": "Humphrey Bogart",
+        "dob": "1899-12-25T00:00:00.000Z",
+        "pob": "New York, NY",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "59826614e8d5db04ad93fb27" },
+        "name": "Marilyn Monroe",
+        "dob": "1926-06-01T00:00:00.000Z",
+        "pob": "Concord, CA",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "5982661ce8d5db04ad93fb28" },
+        "name": "Naomi Watts",
+        "dob": "1968-09-28T00:00:00.000Z",
+        "pob": "Shoreham, England",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "59826624e8d5db04ad93fb29" },
+        "name": "Laura Elena Harring",
+        "dob": "1964-03-03T00:00:00.000Z",
+        "pob": "Los Mochis, Mexico",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "5982654ce8d5db04ad93fb30" },
+        "name": "Lauren Bacall",
+        "dob": "1924-09-16T00:00:00.000Z",
+        "pob": "The Bronx, NY",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "5982660de8d5db04ad93fb31" },
+        "name": "Kate Winslet",
+        "dob": "1975-10-05T00:00:00.000Z",
+        "pob": "Reading, England",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "59826614e8d5db04ad93fb32" },
+        "name": "Jack Nicholson",
+        "dob": "1937-04-22T00:00:00.000Z",
+        "pob": "Neptune, NJ",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "5982661ce8d5db04ad93fb33" },
+        "name": "Michael B Jordan",
+        "dob": "1987-02-09T00:00:00.000Z",
+        "pob": "Newark, NJ",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "59826624e8d5db04ad93fb34" },
+        "name": "Philip Seymour Hoffman",
+        "dob": "1967-07-23T00:00:00.000Z",
+        "pob": "Fairport, NY",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "59826624e8d5db04ad93fb35" },
+        "name": "Zap Rowsdower",
+        "dob": "1945-01-01T00:00:00.000Z",
+        "pob": "Winnipeg, Canada",
+        "__v": 0
+    },
+    {
+        "_id": { "$oid" : "59826624e8d5db04ad93fb36" },
+        "name": "Dolly Parton",
+        "dob": "1946-01-19T00:00:00.000Z",
+        "pob": "Sevier County, TN",
+        "__v": 0
+    }
+]

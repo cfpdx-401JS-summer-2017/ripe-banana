@@ -1,4 +1,4 @@
-process.env.MONGODB_URI = 'mongodb://localhost:27017/soggyPickle-test';
+process.env.MONGODB_URI = 'mongodb://localhost:27017/soggyPickle-jsonData';
 require('../../lib/connect');
 const connection = require('mongoose').connection;
 

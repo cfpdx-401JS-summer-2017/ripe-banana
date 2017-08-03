@@ -1,0 +1,62 @@
+[
+    {
+        "__v": 0,
+        "name": "Roger Ebert",
+        "company": "Chicago Sun Times",
+        "_id": { "$oid": "598267df22670a065dc2e1f0" }
+    },
+    {
+        "__v": 0,
+        "name": "Johnny Five",
+        "company": "Los Angeles Times",
+        "_id": { "$oid": "598267df22670a065dc2e1f1" }
+    },
+    {
+        "__v": 0,
+        "name": "Big Bird",
+        "company": "Sesame Street News",
+        "_id": { "$oid": "598267df22670a065dc2e1f2" }
+    },
+    {
+        "__v": 0,
+        "name": "Mr. T",
+        "company": "The T Tribune",
+        "_id": { "$oid": "598267df22670a065dc2e1f3" }
+    },
+    {
+        "__v": 0,
+        "name": "Takeru Kobayashi",
+        "company": "Tokyo Sun",
+        "_id": { "$oid": "598267df22670a065dc2e1f4" }
+    },
+    {
+        "__v": 0,
+        "name": "Lady Gaga",
+        "company": "New York Times",
+        "_id": { "$oid": "598267df22670a065dc2e1f5" }
+    },
+    {
+        "__v": 0,
+        "name": "Princess Leia",
+        "company": "Alderaan Journal",
+        "_id": { "$oid": "598267df22670a065dc2e1f6" }
+    },
+    {
+        "__v": 0,
+        "name": "Mystery Reviewer",
+        "company": "Mystery Paper",
+        "_id": { "$oid": "598267df22670a065dc2e1f7" }
+    },
+    {
+        "__v": 0,
+        "name": "Michelle Obama",
+        "company": "Washington Post",
+        "_id": { "$oid": "598267df22670a065dc2e1f8" }
+    },
+    {
+        "__v": 0,
+        "name": "Grover Cleveland",
+        "company": "Non-Consecutive Times",
+        "_id": { "$oid": "598267df22670a065dc2e1f9" }
+    }
+]

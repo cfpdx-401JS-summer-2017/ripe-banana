@@ -1,0 +1,82 @@
+[
+    {
+        "__v": 0,
+        "name": "Disney",
+        "_id": { "$oid": "598269ad1105b107e9c3045f" },
+        "address": {
+            "city": "Anahiem",
+            "state": "CA",
+            "country": "USA"
+        }
+    },
+    {
+        "__v": 0,
+        "name": "Warner Brothers",
+        "_id": { "$oid": "598269ad1105b107e9c30460" },
+        "address": {
+            "city": "Los Angeles",
+            "state": "CA",
+            "country": "USA"
+        }
+    },
+    {
+        "__v": 0,
+        "name": "Universal",
+        "_id": { "$oid": "598269ad1105b107e9c30461" },
+        "address": {
+            "city": "Universal City",
+            "state": "CA",
+            "country": "USA"
+        }
+    },
+    {
+        "__v": 0,
+        "name": "Kauffman Astoria Studios",
+        "_id": { "$oid": "598269ad1105b107e9c30462" },
+        "address": {
+            "city": "Queens",
+            "state": "NY",
+            "country": "USA"
+        }
+    },
+    {
+        "__v": 0,
+        "name": "Silvercup Studios",
+        "_id": { "$oid": "598269ad1105b107e9c30463" },
+        "address": {
+            "city": "Long Island City",
+            "state": "NY",
+            "country": "USA"
+        }
+    },
+    {
+        "__v": 0,
+        "name": "Windy City Studios",
+        "_id": { "$oid": "598269ad1105b107e9c30464" },
+        "address": {
+            "city": "Chicago",
+            "state": "IL",
+            "country": "USA"
+        }
+    },
+    {
+        "__v": 0,
+        "name": "Alchemy Code Labs",
+        "_id": { "$oid": "598269ad1105b107e9c30465" },
+        "address": {
+            "city": "Portland",
+            "state": "OR",
+            "country": "USA"
+        }
+    },
+    {
+        "__v": 0,
+        "name": "Okefenokee Films",
+        "_id": { "$oid": "598269ad1105b107e9c30466" },
+        "address": {
+            "city": "Folkston",
+            "state": "GA",
+            "country": "USA"
+        }
+    }
+]

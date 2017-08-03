@@ -1,0 +1,35 @@
+[
+    {
+        "rating": 5,
+        "reviewer": {
+            "$oid": "598267df22670a065dc2e1f6"
+        },
+        "content": "Super great! See it now.",
+        "film": {
+            "$oid": "598269ad1105b107e9c30667"
+        },
+        "id": { "$oid": "598269ad1105b107e9c30123" }
+    },
+    {
+        "rating": 1,
+        "reviewer": {
+            "$oid": "598267df22670a065dc2e1f3"
+        },
+        "content": "I pity the fool who made this film.",
+        "film": {
+            "$oid": "598269ad1105b107e9c30667"
+        },
+        "id": { "$oid": "598269ad1105b107e9c30124" }
+    },
+    {
+        "rating": 3,
+        "reviewer": {
+            "$oid": "598267df22670a065dc2e1f4"
+        },
+        "content": "It was not so bad. Made me hungry.",
+        "film": {
+            "$oid": "598269ad1105b107e9c30667"
+        },
+        "id": { "$oid": "598269ad1105b107e9c30125" }
+    }
+]
