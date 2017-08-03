@@ -9,6 +9,7 @@ describe('user model', () => {
             email: 'me@me.com'
         });
         const password = 'abc';
+        
         user.generateHash(password);
 
         assert.notEqual(user.hash, password);

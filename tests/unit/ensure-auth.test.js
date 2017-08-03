@@ -34,7 +34,7 @@ describe('ensure auth middleware', () => {
     });
 
     it('calls next on valid Authorization and sets user property on req', done => {
-        const payload = { _id: '123', roles: [] };
+        const payload = { _id: '123', roles: ['reviewer'] };
         tokenService.sign(payload)
             .then(token => {
                 const req = {

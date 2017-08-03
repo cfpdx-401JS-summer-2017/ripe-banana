@@ -7,8 +7,12 @@ describe('reviewer REST api', () => {
     before(db.drop);
 
     let token = null;
-    before(() => db.getToken().then(t => token = t));
-
+    before(() => {
+        return db.getToken()
+            .then(t => db.addRole(t, 'reviewer'))
+            .then(t => token = t);
+    });
+        
     it('initial /GET returns empty list', () => {
         return request.get('/reviewers')
             .then(req => {

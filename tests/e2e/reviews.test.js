@@ -7,7 +7,11 @@ describe('review REST api', () => {
     before(db.drop);
 
     let token = null;
-    before(() => db.getToken().then(t => token = t));
+    before(() => {
+        return db.getToken()
+            .then(t => db.addRole(t, 'reviewer'))
+            .then(t => token = t);
+    });
 
     let reviewer = {
         name: 'Manohla Dargis',
@@ -45,7 +49,6 @@ describe('review REST api', () => {
         return Promise.all([
 
             request.post('/reviewers')
-                .set('Authorization', token)
                 .send(reviewer)
                 .then(res => res.body)
                 .then(saved => {
@@ -54,7 +57,6 @@ describe('review REST api', () => {
                 }),
 
             request.post('/studios')
-                .set('Authorization', token)
                 .send(studio1)
                 .then(res => res.body)
                 .then(saved => {
@@ -63,7 +65,6 @@ describe('review REST api', () => {
                 }),
 
             request.post('/studios')
-                .set('Authorization', token)
                 .send(studio2)
                 .then(res => res.body)
                 .then(saved => {
@@ -72,14 +73,13 @@ describe('review REST api', () => {
                 }),
 
             request.post('/actors')
-                .set('Authorization', token)
                 .send(jeff)
                 .then(res => res.body)
                 .then(saved => {
                     jeff = saved;
                     return jeff;
                 })
-         
+
         ])
             .then(() => {
                 return request.post('/films')
@@ -110,7 +110,7 @@ describe('review REST api', () => {
                             actor: jeff._id
                         }]
                     });
-                    
+
             })
             .then(res => res.body)
             .then(saved => {
@@ -129,7 +129,7 @@ describe('review REST api', () => {
                             actor: jeff._id
                         }]
                     });
-                    
+
             })
             .then(res => res.body)
             .then(saved => {
@@ -154,11 +154,11 @@ describe('review REST api', () => {
             .then(res => res.body);
     }
 
-    it('roundtrips a new review', () => {
+    it('requires role-based authorization when posting a new review', () => {
         review1 = {
             rating: '4',
             reviewer: reviewer._id,
-            review: 'This was a great movie!',
+            review: 'This was a fantastic movie!',
             film: film1._id
         };
         return saveReview(review1)
@@ -167,7 +167,8 @@ describe('review REST api', () => {
                 review1 = saved;
             })
             .then(() => {
-                return request.get(`/reviews/${review1._id}`)
+                return request
+                    .get(`/reviews/${review1._id}`)
                     .set('Authorization', token);
             })
             .then(res => res.body)
@@ -214,9 +215,8 @@ describe('review REST api', () => {
                 review2 = savedReviews[0];
                 review3 = savedReviews[1];
             })
-            .then(
-                () => request.get('/reviews')
-                    .set('Authorization', token))            
+            .then(() => request.get('/reviews')
+                .set('Authorization', token))
             .then(res => res.body)
             .then(reviews => {
                 assert.equal(reviews.length, 3);
@@ -226,7 +226,7 @@ describe('review REST api', () => {
             });
     });
 
-    it('updates review', () => {
+    it('requires role-based authorization when updating a review', () => {
         review2.rating = 5;
 
         return request.put(`/reviews/${review2._id}`)
@@ -238,7 +238,7 @@ describe('review REST api', () => {
             });
     });
 
-    it('deletes a review', () => {
+    it('requires role-based authorization when deleting a review', () => {
 
         return request.delete(`/reviews/${review3._id}`)
             .set('Authorization', token)
@@ -246,9 +246,8 @@ describe('review REST api', () => {
             .then(result => {
                 assert.isTrue(result.removed);
             })
-            .then(
-                () => request.get('/reviews')
-                    .set('Authorization', token))
+            .then(() => request.get('/reviews')
+                .set('Authorization', token))
             .then(res => res.body)
             .then(reviews => {
                 assert.equal(reviews.length, 2);
