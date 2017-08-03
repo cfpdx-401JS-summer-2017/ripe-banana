@@ -2,19 +2,9 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const assert = require('chai').assert;
 
-// process.env.MONGODB_URI = 'mongodb://localhost:27017/ripe-banana-test';
-
-// require('../../lib/connect');
-
-// const connection = require('mongoose').connection;
-
-// const app = require('../../lib/app');
-// const request = chai.request(app);
-
 describe('review REST api', () => {
 
     before(db.drop);
-
 
     let token = null;
     before(() => db.getToken().then(t => token = t));
@@ -224,8 +214,9 @@ describe('review REST api', () => {
                 review2 = savedReviews[0];
                 review3 = savedReviews[1];
             })
-            .then(() => request.get('/reviews'))
-            .set('Authorization', token)
+            .then(
+                () => request.get('/reviews')
+                    .set('Authorization', token))            
             .then(res => res.body)
             .then(reviews => {
                 assert.equal(reviews.length, 3);
@@ -255,7 +246,9 @@ describe('review REST api', () => {
             .then(result => {
                 assert.isTrue(result.removed);
             })
-            .then(() => request.get('/reviews'))
+            .then(
+                () => request.get('/reviews')
+                    .set('Authorization', token))
             .then(res => res.body)
             .then(reviews => {
                 assert.equal(reviews.length, 2);

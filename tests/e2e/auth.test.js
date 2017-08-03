@@ -113,7 +113,7 @@ describe('auth', () => {
                 .set('Authorization', 'badtoken')
                 .then(
                     () => { throw new Error('status should not be 200'); },
-                    () => {
+                    res => {
                         assert.equal(res.status, 401);
                         assert.equal(res.response.body.error, 'Authorization Failed');
                     }

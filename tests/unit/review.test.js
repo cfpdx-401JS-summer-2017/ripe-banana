@@ -73,7 +73,21 @@ describe('Review model', () => {
             .then(
                 () => { throw new Error('Expected validation error'); },
                 ({ errors }) => {
-                    
+
+                    assert.ok(errors.rating);
+                }
+            );
+    });
+
+    it('fails validation with out of range rating number', () => {
+        const review = new Review({
+            rating: 6,
+        });
+        return review.validate()
+            .then(
+                () => { throw new Error('Expected validation error'); },
+                ({ errors }) => {
+
                     assert.ok(errors.rating);
                 }
             );

@@ -1,20 +1,11 @@
-const chai = require('chai');
-const assert = chai.assert;
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-
-process.env.MONGODB_URI = 'mongodb://localhost:27017/ripe-banana-test';
-
-require('../../lib/connect');
-
-const connection = require('mongoose').connection;
-
-const app = require('../../lib/app');
-
-const request = chai.request(app);
+const db = require('./helpers/db');
+const request = require('./helpers/request');
+const assert = require('chai').assert;
 
 describe('actors REST api',() => {
-    before(() => connection.dropDatabase());
+    
+    before(db.drop);
+
     let studio = null;
     before(() => {
         return request.post('/studios')
@@ -122,20 +113,20 @@ describe('actors REST api',() => {
 
             });
     });
-    saveActor(zoe);
+    
     it('rewrites actor data by id', () =>{
-        return request
-            .put(`/actors/${zoe._id}`)
-            .send(zoeS)
-            .then(res => {
-                assert.isOk(res.body._id);
-                assert.equal(res.body.name,zoeS.name);
-                assert.equal(res.body.dob,zoeS.dob.toISOString());
+        saveActor(zoeS)
+            .then(() => {
+                return request.put(`/actors/${zoeS._id}`)
+                    .send(zoeS)
+                    .then(res => {
+                        assert.isOk(res.body._id);
+                        assert.equal(res.body.name,zoeS.name);
+                        assert.equal(res.body.dob,zoeS.dob.toISOString());
+                    });
             });
+            
     });
-    // the deletion tests are passing but still need deletion blocking when actors
-    // have films they were in I chose Peter Dinklage as the test subject object 
-    //so be sure to remove a film with Peter Dinklage first
     it('deletes actor by id', () => {
         return request.delete(`/actors/${peterD._id}`)
             .then(res => {

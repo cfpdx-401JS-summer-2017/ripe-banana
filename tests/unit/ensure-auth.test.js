@@ -43,7 +43,7 @@ describe('ensure auth middleware', () => {
 
                 const next = (error) => {
                     assert.isNotOk(error);
-                    assert.equal(req.user.roles, payload.roles);
+                    assert.deepEqual(req.user.roles, payload.roles);
                     done();
                 };
 
