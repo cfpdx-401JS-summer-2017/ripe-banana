@@ -1,20 +1,9 @@
-const chai = require('chai');
-const assert = chai.assert;
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-
-process.envMONGODB_URI = 'mongodb://localhost:27017/ripe-banana-test';
-
-require('../../lib/connect');
-
-const connection = require('mongoose').connection;
-
-const app = require('../../lib/app');
-
-const request = chai.request(app);
+const db = require('./helpers/db');
+const request = require('./helpers/request');
+const assert = require('chai').assert;
 
 describe('films REST api', () => {
-    before(() => connection.dropDatabase());
+    before(db.drop);
 
     let studio = null;
     before(() => {
@@ -78,11 +67,9 @@ describe('films REST api', () => {
     it('returns 404 if film does not exist', () => {
         return request.get('/films/58ff9f496aafd447254c2666').then(
             () => {
-                //resolve
                 throw new Error('successful status code not expected');
             },
             ({ response }) => {
-                //reject
                 assert.ok(response.notFound);
                 assert.isOk(response.error);
             }
