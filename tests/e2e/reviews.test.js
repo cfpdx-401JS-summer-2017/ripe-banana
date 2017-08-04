@@ -1,20 +1,17 @@
-const chai = require('chai');
-const assert = chai.assert;
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-
-process.env.MONGODB_URI = 'mongodb://localhost:27017/ripe-banana-test';
-
-require('../../lib/connect');
-
-const connection = require('mongoose').connection;
-
-const app = require('../../lib/app');
-const request = chai.request(app);
+const db = require('./helpers/db');
+const request = require('./helpers/request');
+const assert = require('chai').assert;
 
 describe('review REST api', () => {
 
-    before(() => connection.dropDatabase());
+    before(db.drop);
+
+    let token = null;
+    before(() => {
+        return db.getToken()
+            .then(t => db.addRole(t, 'reviewer'))
+            .then(t => token = t);
+    });
 
     let reviewer = {
         name: 'Manohla Dargis',
@@ -82,7 +79,7 @@ describe('review REST api', () => {
                     jeff = saved;
                     return jeff;
                 })
-         
+
         ])
             .then(() => {
                 return request.post('/films')
@@ -113,7 +110,7 @@ describe('review REST api', () => {
                             actor: jeff._id
                         }]
                     });
-                    
+
             })
             .then(res => res.body)
             .then(saved => {
@@ -132,7 +129,7 @@ describe('review REST api', () => {
                             actor: jeff._id
                         }]
                     });
-                    
+
             })
             .then(res => res.body)
             .then(saved => {
@@ -143,6 +140,7 @@ describe('review REST api', () => {
 
     it('initial /GET returns empty list', () => {
         return request.get('/reviews')
+            .set('Authorization', token)
             .then(req => {
                 const reviews = req.body;
                 assert.deepEqual(reviews, []);
@@ -151,15 +149,16 @@ describe('review REST api', () => {
 
     function saveReview(review) {
         return request.post('/reviews')
+            .set('Authorization', token)
             .send(review)
             .then(res => res.body);
     }
 
-    it('roundtrips a new review', () => {
+    it('requires role-based authorization when posting a new review', () => {
         review1 = {
             rating: '4',
             reviewer: reviewer._id,
-            review: 'This was a great movie!',
+            review: 'This was a fantastic movie!',
             film: film1._id
         };
         return saveReview(review1)
@@ -168,7 +167,9 @@ describe('review REST api', () => {
                 review1 = saved;
             })
             .then(() => {
-                return request.get(`/reviews/${review1._id}`);
+                return request
+                    .get(`/reviews/${review1._id}`)
+                    .set('Authorization', token);
             })
             .then(res => res.body)
             .then(got => {
@@ -182,6 +183,7 @@ describe('review REST api', () => {
     it('GET returns 404 for non-existent id', () => {
         const nonId = '597e9d4a119656c01e87d37e';
         return request.get(`/${nonId}`)
+            .set('Authorization', token)
             .then(
                 () => { throw new Error('expected 404'); },
                 res => {
@@ -213,7 +215,8 @@ describe('review REST api', () => {
                 review2 = savedReviews[0];
                 review3 = savedReviews[1];
             })
-            .then(() => request.get('/reviews'))
+            .then(() => request.get('/reviews')
+                .set('Authorization', token))
             .then(res => res.body)
             .then(reviews => {
                 assert.equal(reviews.length, 3);
@@ -223,10 +226,11 @@ describe('review REST api', () => {
             });
     });
 
-    it('updates review', () => {
+    it('requires role-based authorization when updating a review', () => {
         review2.rating = 5;
 
         return request.put(`/reviews/${review2._id}`)
+            .set('Authorization', token)
             .send(review2)
             .then(res => res.body)
             .then(updated => {
@@ -234,14 +238,16 @@ describe('review REST api', () => {
             });
     });
 
-    it('deletes a review', () => {
+    it('requires role-based authorization when deleting a review', () => {
 
         return request.delete(`/reviews/${review3._id}`)
+            .set('Authorization', token)
             .then(res => res.body)
             .then(result => {
                 assert.isTrue(result.removed);
             })
-            .then(() => request.get('/reviews'))
+            .then(() => request.get('/reviews')
+                .set('Authorization', token))
             .then(res => res.body)
             .then(reviews => {
                 assert.equal(reviews.length, 2);
@@ -251,6 +257,7 @@ describe('review REST api', () => {
     it('delete a non-existent review is removed false', () => {
 
         return request.delete(`/reviews/${review3._id}`)
+            .set('Authorization', token)
             .then(res => res.body)
             .then(result => {
                 assert.isFalse(result.removed);

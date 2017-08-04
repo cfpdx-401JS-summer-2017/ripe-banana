@@ -1,21 +1,18 @@
-const chai = require('chai');
-const assert = chai.assert;
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-
-process.env.MONGODB_URI = 'mongodb://localhost:27017/ripe-banana-test';
-
-require('../../lib/connect');
-
-const connection = require('mongoose').connection;
-
-const app = require('../../lib/app');
-const request = chai.request(app);
+const db = require('./helpers/db');
+const request = require('./helpers/request');
+const assert = require('chai').assert;
 
 describe('reviewer REST api', () => {
 
-    before(() => connection.dropDatabase());
+    before(db.drop);
 
+    let token = null;
+    before(() => {
+        return db.getToken()
+            .then(t => db.addRole(t, 'reviewer'))
+            .then(t => token = t);
+    });
+        
     it('initial /GET returns empty list', () => {
         return request.get('/reviewers')
             .then(req => {
@@ -174,6 +171,7 @@ describe('reviewer REST api', () => {
 
             .then(() => {
                 return request.post('/reviews')
+                    .set('Authorization', token)
                     .send({
                         rating: '4',
                         reviewer: john._id,
@@ -189,6 +187,7 @@ describe('reviewer REST api', () => {
 
             .then(() => {
                 return request.post('/reviews')
+                    .set('Authorization', token)
                     .send({
                         rating: '3',
                         reviewer: amy._id,
