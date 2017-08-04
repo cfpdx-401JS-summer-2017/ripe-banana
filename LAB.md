@@ -1,5 +1,6 @@
-<img src="https://cloud.githubusercontent.com/assets/478864/22186847/68223ce6-e0b1-11e6-8a62-0e3edc96725e.png" 
-width=30> Ripe Banana
+<img src="https://cloud.githubusercontent.com/assets/478864/22186847/68223ce6-e0b1-11e6-8a62-0e3edc96725e.png" width=30></img>
+
+Ripe Banana
 ===
 
 ## Description
@@ -93,9 +94,9 @@ route | returns
 `GET /studios/:id` | { name, address, films: [{ title }] }
 `GET /films` | [{ title, released, studio.name }]
 `GET /films/:id` | { title, released, studio.name, cast: [ { role, actor-name } ], reviews: [rating, review, reviewer.name] }
-`GET /actors` | [{ name, movieCount }]
+`GET /actors` | [{ name }]
 `GET /actors/:id` | { name, dob, pob, films: [ name, released ] }
-`GET /reviewer` | [{ name, company, countOfReviews }]
+`GET /reviewer` | [{ name, company }]
 `GET /reviewer/:id` | { name, company, reviews: [ film.name, rating, review ] }
 `GET /reviews` | [{ rating, review, film.name }] *limit to 100 most recent
 
